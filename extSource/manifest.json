@@ -1,0 +1,21 @@
+{
+    "update_url": "https://clients2.google.com/service/update2/crx",
+    "manifest_version": 3,
+    "name": "ExtSource",
+    "description": "This extension emits to extTarget.",
+    "version": "1.0",
+    "background": {
+        "service_worker": "background.js"
+    },
+    "icons": {
+        "16": "icon16.png"
+    },
+    "commands": {
+        "send": {
+            "description": "send"
+        }
+    },
+    "externally_connectable": {
+        "ids": ["gobmlnnbmjemmpbgkkppcfcimkeicfnm"]
+      }
+}
