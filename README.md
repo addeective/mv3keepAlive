@@ -1,6 +1,6 @@
 # MV3 keep alive extension
 
-This extension can keep an other extension alive and will avoid the burden to make their service worker state persistent.
+This extension will keep your extension alive and avoid the burden to evolve your service worker to state persistent.
 
 # configuring your extension
 
@@ -16,4 +16,4 @@ and add the following lines to your manifest.json file:
 
 ```
 
-Remark: source is provided in mv3keepalive/ if you want to use your own version. IN this case, you will have to replace the "ids" with your new keepalive extension id.
+Remark: source is provided in mv3keepalive/ if you want to use your own version. In this case, you will have to replace the "ids" with your new keepalive extension id.
