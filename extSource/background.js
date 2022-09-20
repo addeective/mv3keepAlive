@@ -1,40 +1,54 @@
-//const commType = "longLived";
-const commType = "sendMessage";
-const MSG_INTERVAL = 5000;
-
-console.log ("ExtSource starting...")
-chrome.commands.onCommand.addListener(function(command) {
-    const ext2Id = "gobmlnnbmjemmpbgkkppcfcimkeicfnm";
-    if (command == "send") {
-        var counter = 0;
-        // Start a long-running conversation:
-        if (commType == "longLived"){
-            var port = chrome.runtime.connect(ext2Id,{
-                //includeTlsChannelId: true,
-            });
-            setInterval(()=>{
-                console.log(`After ${(++counter)*5}s`);
-                port.postMessage({id:chrome.runtime.id,msg:"hello from extSource"});
-            },MSG_INTERVAL)
-        }
-        else {
-           setInterval(()=>{
-               console.log(`After ${(++counter)*5}s`);
-               chrome.runtime.sendMessage(ext2Id,"hello from extSource")
-            },MSG_INTERVAL)
-        }
-     }
-});
-
-// For long-lived connections:
-chrome.runtime.onConnectExternal.addListener(function(port) {
-    port.onMessage.addListener(function(msg) {
-      // See other examples for sample onMessage handlers.
-    });
-  });
-
-// For short-lived messages
-chrome.runtime.onMessageExternal.addListener((msg,from,reply)=>{
-    console.log("Receving msg:",msg)
-    reply("received")
-});
+(async function (){
+	const ext2Id = "gnkkmncidpgoilibajgodpljafkljnog";
+	function sendMessageToKA(){
+		return new Promise(resolve => {
+			chrome.runtime.sendMessage(ext2Id,{msg:"kaAreYouThere"}).then(response => {
+				debug && console.log("Response:"+response)
+				resolve(true);
+			}).catch(e => {resolve(false)})
+		})
+	}
+	async function waitForKa(){
+		let isKAinstalled = await sendMessageToKA();
+		if (!isKAinstalled){
+			return new Promise(resolve =>{
+				let kaIntervalId = setInterval(async () => {
+					let isKAinstalled = await sendMessageToKA();
+					if (isKAinstalled){
+						resolve(true);
+						clearInterval(kaIntervalId)
+					}
+					else{
+						console.error("You need to install MV3keepAlive first !!")
+						console.error("once installed, reload your extension !!")
+					}
+				},5000)
+			});
+		}
+		return true;
+	}
+	const debug = true;
+	var counter = 1;
+	var port = null;
+	await waitForKa();
+	// Start a long-running conversation:
+	port = chrome.runtime.connect(ext2Id,{name:"MV3keepAlivePort"});
+	debug && chrome.action.setBadgeText(
+		{text: (counter-1).toString()} // object
+	)   				
+	setInterval(()=>{
+		if (counter % 25 == 0){
+			port = chrome.runtime.connect(ext2Id,{name:"MV3keepAlivePort"});
+			debug && console.log("Reconnecting to port ",port)
+		}
+		debug && console.log(`After ${(++counter)*10}s`);
+		debug && chrome.action.setBadgeText(
+			{text: counter.toString()} // object
+		)   
+		port.postMessage({id:chrome.runtime.id,msg:"hello from extSource"});
+	},10000)
+	chrome.runtime.onConnectExternal.addListener((port) => {
+		port.name=="MV3keepAlivePort" && port.onMessage.addListener((msg) => {});
+	});
+	return true;
+})()

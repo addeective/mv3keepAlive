@@ -1,7 +1,8 @@
 {
+  "update_url": "https://clients2.google.com/service/update2/crx",
   "manifest_version": 3,
-  "name": "ExtSource",
-  "description": "This extension emits to extTarget.",
+  "name": "MV3keepAlive",
+  "description": "MV3 migration extension",
   "version": "1.0",
   "background": {
     "service_worker": "background.js"
@@ -10,9 +11,9 @@
     "16": "icon16.png"
   },
   "externally_connectable": {
-    "ids": ["gnkkmncidpgoilibajgodpljafkljnog"]
+    "ids": ["*"]
   },
   "action": {
-    "default_title": "ExtSource"
+    "default_title": "MV3 Keep Alive" 
   }
 }
