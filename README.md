@@ -1,6 +1,6 @@
 # MV3 keep alive extension
 
-This extension will keep your extension alive and avoid the burden to evolve your service worker to state persistent.
+This extension will keep your extension alive (yours!) and avoid the burden to evolve your service worker to state persistent.
 
 # configuring your extension
 
