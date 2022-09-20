@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "ExtSource",
-  "description": "This extension emits to extTarget.",
+  "name": "MV3keepAlive sample1",
+  "description": "This extension uses MV3keepAlive extension to stay alive",
   "version": "1.0",
   "background": {
     "service_worker": "background.js"
@@ -13,6 +13,6 @@
     "ids": ["gnkkmncidpgoilibajgodpljafkljnog"]
   },
   "action": {
-    "default_title": "ExtSource"
+    "default_title": "MV3keepAlive sample"
   }
 }
