@@ -1,28 +1,36 @@
-console.log ("MV3keepAlive starting...")
-const debug = true;
+var debug = true;
+var counter = 1;
+var port = null;
 
-// For long-lived connections:
-var counter = 0;
-chrome.runtime.onConnectExternal.addListener((port) => {
-  var ext1Id = port.sender.id;
-  var port2 = chrome.runtime.connect(ext1Id,{name:"MV3keepAlivePort"});
-  debug && chrome.action.setBadgeText(
-		{text: counter.toString()} // object
-	)   
-  port.onMessage.addListener((msg) => {
-    if (++counter % 25 == 0){
-      port2 = chrome.runtime.connect(ext1Id,{name:"MV3keepAlivePort"});
-      debug && console.log("Reconnecting to port ",port2)
-    }
-    // See other examples for sample onMessage handlers.
-    debug && console.log("Receiving message "+counter,msg)
-    chrome.action.setBadgeText(
-      {text: counter.toString()} // object
-    )    
-    port2.postMessage("hello from MV3keepAlive");
-  });
-});
+console.log ("MV3keepAlive starting...")
+
 chrome.runtime.onMessageExternal.addListener((msg,from,reply)=>{
-  debug && console.log("Receving msg:",msg)
-  reply("yes I am here")
+  const  extToKeepAlive = from.id;
+	debug && console.log("Receving msg:",msg)
+  // Start a long-running conversation:
+  port = chrome.runtime.connect(extToKeepAlive,{name:"MV3keepAlivePort"});
+  port.onDisconnect.addListener(()=>{
+    intervalId && (intervalId = clearInterval(intervalId));
+  })
+  debug && chrome.action.setBadgeText(
+    {text: (counter-1).toString()} // object
+  )   				
+  var intervalId = setInterval(()=>{
+    if (counter % 25 == 0){
+      port = chrome.runtime.connect(extToKeepAlive,{name:"MV3keepAlivePort"});
+      debug && console.log("Reconnecting to port ",port)
+      port.onDisconnect.addListener(()=>{
+        intervalId && (intervalId = clearInterval(intervalId));
+      })
+    }
+    debug && console.log(`After ${(++counter)*10}s`);
+    debug && chrome.action.setBadgeText(
+      {text: counter.toString()} // object
+    )   
+    intervalId && port.postMessage({id:chrome.runtime.id,msg:"hello from extSource"});
+  },10000)
+  chrome.runtime.onConnectExternal.addListener((port) => {
+    port.name=="MV3keepAlivePort" && port.onMessage.addListener((msg) => {});
+  });
+  reply({msg:"yes I am here", resetPortModulo:25})
 });
