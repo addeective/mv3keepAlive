@@ -2,8 +2,9 @@
   "update_url": "https://clients2.google.com/service/update2/crx",
   "manifest_version": 3,
   "name": "MV3keepAlive",
+  "key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvrGB2Q21FPZMNIex8RNg/CtweFgm6vRee8uSDexH6T4tglJWckesXAWdb8zaNDLJ/8Q3rB3LR6BNIAOcU54Yd8aeZWw4527R/Ahk8kXOyMc2fc6WL9d39RVojf5zevW4IIg2BlXrCsS9I8AbcM+M0Gn78fSgT/spZs5H1lrfkjWSHNkgRa1K+/HCrJp7RAFVOGSNQW+AY/Gyk4bnMZe9H3Mw+CT744aTo7h9j5KKEZHKmkXUS50cPL7rkA8CLiAihmKZC7j908SUMN/TRhuh1Jk/iKDv0nuHVnUcrxBjAWfuKejSy53La4AK9xQnNMIFQXE/bq59BDLgSV98Rg1srQIDAQAB",
   "description": "MV3 migration extension",
-  "version": "1.0",
+  "version": "1.4",
   "background": {
     "service_worker": "background.js"
   },

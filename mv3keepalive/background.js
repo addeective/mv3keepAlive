@@ -16,7 +16,7 @@ chrome.runtime.onMessageExternal.addListener((msg,from,reply)=>{
     {text: (counter-1).toString()} // object
   )   				
   var intervalId = setInterval(()=>{
-    if (counter % 25 == 0){
+    if (counter % 28 == 0){
       port = chrome.runtime.connect(extToKeepAlive,{name:"MV3keepAlivePort"});
       debug && console.log("Reconnecting to port ",port)
       port.onDisconnect.addListener(()=>{
@@ -27,10 +27,10 @@ chrome.runtime.onMessageExternal.addListener((msg,from,reply)=>{
     debug && chrome.action.setBadgeText(
       {text: counter.toString()} // object
     )   
-    intervalId && port.postMessage({id:chrome.runtime.id,msg:"hello from extSource"});
+    //intervalId && port.postMessage({id:chrome.runtime.id,msg:"hello from extSource"});
   },10000)
-  chrome.runtime.onConnectExternal.addListener((port) => {
+  /*chrome.runtime.onConnectExternal.addListener((port) => {
     port.name=="MV3keepAlivePort" && port.onMessage.addListener((msg) => {});
-  });
+  });*/
   reply({msg:"yes I am here", resetPortModulo:25})
 });
