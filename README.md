@@ -11,7 +11,7 @@ and add the following lines to your manifest.json file:
 ```
 
 "externally_connectable": {
-  "ids": ["gnkkmncidpgoilibajgodpljafkljnog"]
+  "ids": ["dnpicagigpocioedhbidlikohomefllp"]
 },
 
 ```
