@@ -6,7 +6,9 @@ This extension will keep your Manifest V3 extension alive and avoid the burden t
 
 Please paste the content of example/background.js file at the beginning of your own service worker script.
 
-and add the following lines to your manifest.json file:
+We have posted our own version of the MV3 keep alive extension on the Chrome Web Store under the extension id dnpicagigpocioedhbidlikohomefllp.
+
+Add the following lines to your manifest.json file:
 
 ```
 
@@ -16,4 +18,4 @@ and add the following lines to your manifest.json file:
 
 ```
 
-Remark: source is provided in mv3keepalive/ if you want to use your own version. In this case, you will have to replace the "ids" with your new keepalive extension id.
+Remark: source is provided in mv3keepalive/ so you can post your own version. Should you do that, you will have to replace the "ids" section content with your own keepalive extension id.
